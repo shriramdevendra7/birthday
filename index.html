@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    background: #ffe;
+    text-align: center;
+    font-family: "Comic Sans MS", cursive;
+}
+#text {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    color: #c0392b;
+    font-size: 22px;
+}
+.say {
+    display: block;
+    margin: 6px 0;
+}
+#clock-box {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    font-size: 18px;
+    color: #555;
+}
+canvas {
+    display: block;
+    margin: auto;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="myAudio" loop>
+    <source src="dekha_hazaro_dafa.mp3" type="audio/mpeg">
+</audio>
+
+<div id="text">
+    <span class="say">My beautiful wife 💞</span>
+    <span class="say">Happy Birthday 🎂</span>
+    <span class="say">From 08 January 2008 ❤️</span>
+    <span class="say">Every moment with you is precious 💕</span>
+    <span class="say">I loved you ❤️</span>
+    <span class="say">I love you ❤️</span>
+    <span class="say">And I will always love you 🥺💖</span>
+</div>
+
+<div id="clock-box">
+    <span id="clock"></span>
+</div>
+
+<canvas id="canvas" width="320" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.addEventListener("click", () => {
+    document.getElementById("myAudio").play();
+});
+
+let hearts = [];
+
+function drawHeart(x, y, size) {
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.bezierCurveTo(x - size, y - size, x - size * 2, y + size, x, y + size * 2);
+    ctx.bezierCurveTo(x + size * 2, y + size, x + size, y - size, x, y);
+    ctx.fill();
+}
+
+canvas.addEventListener("click", e => {
+    hearts.push({ x: e.offsetX, y: e.offsetY, size: 8 });
+});
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hearts.forEach(h => drawHeart(h.x, h.y, h.size));
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+<script>
+function updateClock() {
+    const start = new Date("2008-01-08T00:00:00");
+    const now = new Date();
+    let diff = Math.floor((now - start) / 1000);
+
+    const days = Math.floor(diff / 86400);
+    diff %= 86400;
+    const hours = Math.floor(diff / 3600);
+    diff %= 3600;
+    const minutes = Math.floor(diff / 60);
+    const seconds = diff % 60;
+
+    document.getElementById("clock").innerText =
+        `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
